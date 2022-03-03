@@ -8,7 +8,6 @@ app.use(cors());
 app.use(express.json());
 app.use('/students', studentRoute);
 app.listen(process.env.PORT)
-app.get('/', (req, res) =>res.send('server online!'));
 
 //*****************************************************************/
 if (process.env.NODE_ENV === 'production') {
