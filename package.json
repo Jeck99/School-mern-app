@@ -4,11 +4,11 @@
   "description": "",
   "main": "./server/server.js",
   "scripts": {
-    "setup":"npm install && cd client && npm install",
+    "setup": "npm install && cd client && npm install",
     "server": "nodemon node ./server/server.js",
     "client": "cd client && npm start",
     "start": "node ./server/server.js",
-    "dev":"concurrently --kill-others-on-fail  \"npm run server\" \"npm run client\"",
+    "dev": "concurrently --kill-others-on-fail  \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
   "author": "",
@@ -23,6 +23,7 @@
     "mongoose": "^6.2.4",
     "nodemon": "^2.0.15",
     "passport": "^0.5.2",
-    "passport-jwt": "^4.0.0"
+    "passport-jwt": "^4.0.0",
+    "path": "^0.12.7"
   }
 }

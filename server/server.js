@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 require('./DB');
 const cors = require('cors');
+const path = require('path');
 const studentRoute = require('./routes/student-route');
 const app = express();
 app.use(cors());
