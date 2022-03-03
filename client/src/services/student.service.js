@@ -1,4 +1,5 @@
-const BASIC_API = 'http://localhost:4002';
+const BASIC_API =process.env.NODE_ENV ==='production'?
+'https://school-mern.herokuapp.com' : 'http://localhost:4002';
 
 export const getStudents = () => {
     return fetch(`${BASIC_API}/students`)
