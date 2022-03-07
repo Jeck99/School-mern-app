@@ -2,18 +2,20 @@ require('dotenv').config();
 const express = require('express');
 require('./DB');
 const cors = require('cors');
-const path = require('path');
-const passport = require('passport');
 const studentRoute = require('./routes/student-route');
 const authRoute = require('./routes/auth-route');
-const app = express();
+const passport = require("passport");
+const path = require('path');
 
-require('./config/passport')(passport);
-app.use(passport.initialize());
+require("./config/passport")(passport);
+const app = express();
+app.use(express.json({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-app.use(express.json());
-app.use('/students',passport.authenticate('jwt',{session:false}) , studentRoute);
+
+app.use(passport.initialize());
 app.use('/auth',authRoute );
+app.use('/students',passport.authenticate('jwt',{session:false}) , studentRoute);
 app.listen(process.env.PORT)
 
 //*****************************************************************/

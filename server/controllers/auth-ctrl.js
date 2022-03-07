@@ -3,19 +3,20 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 module.exports = {
     register: async (req, res) => {
-        if (users.exists({ email: req.body.email }) === true) return res.status(400).json({ message: 'Email already exists' });
-        const hash = bcrypt.hashSync(req.body.password, 10);
-        req.body.password = hash;
-        await users.create(req.body, (err, user) => {
-            if (err) return res.status(500).json({ message: 'Error registering user' });
-            return res.status(201).json({ message: 'User registered successfully' });
-        });
+        if (users.exists(req.body.user.email) == true) return res.status(400).json({ message: 'Email already exists' });
+        bcrypt.hash(req.body.user.password, 10, async (err, hashPassword) => {
+            if (err) return res.status(500).json({ message: err.message });
+            req.body.user.password = hashPassword;
+            await users.create(req.body.user)
+                .then(result => res.status(200).json({ massage: "user added successfully", result }))
+                .catch(err => res.status(500).json(err));
+        })
     },
     login: async (req, res) => {
-        if (users.exists({ email: req.body.email }) === false) return res.status(401).json({ message: 'Email already exists' });
-        users.findOne({ email: req.body.email })
+        if (users.exists({ email: req.body.user.email }) === false) return res.status(401).json({ message: 'Email already exists' });
+        users.findOne({ email: req.body.user.email })
             .then(user => {
-                bcrypt.compare(req.body.password, user.password)
+                bcrypt.compare(req.body.user.password, user.password)
                     .then(isMatch => {
                         if (!isMatch) return res.status(403).json({ message: 'Invalid credentials' });
                         user.isLogin = true;
